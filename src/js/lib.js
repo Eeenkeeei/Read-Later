@@ -1,7 +1,8 @@
 export class Link {
-    constructor(name, price) {
+    constructor(name, tag, link) {
         this.name = name;
-        this.price = price;
+        this.tag = tag;
+        this.link = link;
 
     }
 }
@@ -19,24 +20,14 @@ export class LinkList {
         this.storage.add(item);
     }
 
-    sum(item){
-        this.storage.sum(item);
-        return this.storage.priceall;
-    }
+
 
     remove(item) {
         this.storage.remove(item);
     }
 
-    maxPrice() {
-        this.storage.maxPrice();
-        return this.storage.max_item_price;
-    }
 
-    maxName() {
-        this.storage.maxName();
-        return this.storage.max_item_name;
-    }
+
 
     removeAll(){
         this.storage.removeAll();

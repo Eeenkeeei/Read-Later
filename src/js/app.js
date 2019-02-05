@@ -24,15 +24,18 @@ formEl.addEventListener('submit', (evt) => {
     const linkTag = tagEl.value; // поле ввода тегов
     tagsEl.value = tagEl.value.trim();
 
+    const link = linkEl.value;
+    linkEl.value = linkEl.value.trim();
+
     const linkNameEl = document.querySelector('#link-name');
     const linkTagsEl = document.querySelector('#link-tags');
 
-    const line = new Link(linkName, linkTag);
+    const line = new Link(linkName, linkTag, link);
     linkList.add(line);
     nameEl.value = '';
     tagEl.value = '';
     linkEl.value = '';
-    rebuildTree(listEl, linkList);
+    rebuildTree(listEl, linkList, link);
 
 });
 
@@ -43,8 +46,8 @@ function rebuildTree(container, list) {
         liEl.className = 'list-group-item col-10';
 
         liEl.innerHTML = `
-            <span data-id="text" class="badge badge-info"><h6>${item.name}</h6></span>
-            <span data-id="text1" class="badge badge-success"><h6>${item.price}</h6> </span>
+            <a href="${item.link}"><span data-id="text" class="badge badge-info"><h6>${item.name}</h6></span></a>
+            <span data-id="text1" class="badge badge-success"><h6>${item.tag}</h6> </span>
             <button data-id="remove" class="btn btn-danger btn-sm float-right">Удалить</button>
         `;
 
