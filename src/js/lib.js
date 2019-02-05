@@ -1,8 +1,9 @@
 export class Link {
-    constructor(name, tag, link) {
+    constructor(name, tag, link, location) {
         this.name = name;
         this.tag = tag;
         this.link = link;
+        this.location = location;
 
     }
 }
