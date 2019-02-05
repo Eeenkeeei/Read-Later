@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Прочитать позже</title>
+</head>
+<body>
+
+<div class="container">
+    <div class="row justify-content-center"> <!--.row>.col-4 EMMET -->
+
+        <div class="col-10">
+            <p>
+            <form class="form-inline" id="add-form">
+                <div></div>
+                <div class="form-group mb-2">
+                    <input type="text" class="form-control" placeholder="Название" id="link-name">
+                </div>
+
+                <div class="form-group mb-2">
+                    <input type="text" class="form-control" placeholder="Теги в формете #tag" id="link-tag">
+                </div>
+                <div class="form-group mb-2">
+                    <input type="text" class="form-control" placeholder="Ссылка" id="link">
+                </div>
+                <div class="addButton">
+                    <button type="submit" class="btn btn-outline-primary mb-3" id="add-item">Добавить товар</button>
+                </div>
+            </form>
+
+
+            <ul class="list-group" id="link-list">
+            </ul>
+            <ul class="list-group" id="link-tags">
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="js/app.js" type="module"></script>
+<script src="js/lib.js" type="module"></script>
+<script src="js/storage.js" type="module"></script>
+</body>
+</html>
