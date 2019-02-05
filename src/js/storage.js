@@ -27,6 +27,10 @@ export class LinksLocalStorage {
         this.save();
     }
 
+    changeLocation (item) {
+       item.location = "read";
+        this.save();
+    }
 
 
     save() {

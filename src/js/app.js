@@ -10,7 +10,6 @@ const listEl = document.querySelector('#link-list'); // список, назва
 const tagsEl = document.querySelector('#link-tags'); // список, теги
 const linkList = new LinkList(new LinksLocalStorage());
 
-
 rebuildTree(listEl, linkList);
 
 const addButton = document.querySelector('#add-item');
@@ -42,8 +41,6 @@ formEl.addEventListener('submit', (evt) => {
 
     rebuildTree(listEl, linkList, link, location);
 
-
-
 });
 
 function rebuildTree(container, list) {
@@ -53,11 +50,18 @@ function rebuildTree(container, list) {
         liEl.className = 'list-group-item col-10';
 
         liEl.innerHTML = `
+            <input type="checkbox" id="i-checkbox">
             <a href="${item.link}"><span data-id="text" class="badge badge-info"><h6>${item.name}</h6></span></a>
             <span data-id="text1" class="badge badge-success"><h6>${item.tag}</h6> </span>
             <button data-id="remove" class="btn btn-danger btn-sm float-right">Удалить</button>
         `;
 
+        const checkboxEl = liEl.querySelector('#i-checkbox');
+            checkboxEl.addEventListener('change', (evt) => { // change можно заменить на input !!!!!!!!!
+                linkList.changeLocation(item);
+                console.log(item);
+                rebuildTree(container, list);
+            });
 
         const removeEl = liEl.querySelector('[data-id=remove]');
         removeEl.addEventListener('click', (evt) => {

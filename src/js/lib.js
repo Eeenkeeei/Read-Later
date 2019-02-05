@@ -21,17 +21,16 @@ export class LinkList {
         this.storage.add(item);
     }
 
-
-
     remove(item) {
         this.storage.remove(item);
     }
 
-
-
-
     removeAll(){
         this.storage.removeAll();
+    }
+
+    changeLocation(item){
+        this.storage.changeLocation(item);
     }
 
 }
