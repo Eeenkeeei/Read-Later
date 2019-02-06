@@ -10,6 +10,7 @@ export class LinksLocalStorage {
 
     add(item) {
         this.items.push(item);
+        item.tag.shift();
         this.save();
     }
 

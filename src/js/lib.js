@@ -1,7 +1,7 @@
 export class Link {
     constructor(name, tag, link, location) {
         this.name = name;
-        this.tag = tag;
+        this.tag = tag.split("#");
         this.link = link;
         this.location = location;
 

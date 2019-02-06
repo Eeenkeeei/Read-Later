@@ -20,17 +20,19 @@ formEl.addEventListener('submit', (evt) => {
     const linkName = nameEl.value; // поле ввода названия
     nameEl.value = nameEl.value.trim();
 
-    const linkTag = tagEl.value.split("#"); // поле ввода тегов
+    const linkTag = tagEl.value; // поле ввода тегов
 
     const link = linkEl.value; // поле ввода ссылки
     linkEl.value = linkEl.value.trim();
+
+
 
     let location = "toRead";
 
     const linkNameEl = document.querySelector('#link-name');
     const linkTagsEl = document.querySelector('#link-tags');
 
-    console.log (tagEl.value.split("#"));
+
 
     const line = new Link(linkName, linkTag, link, location);
     linkList.add(line);
@@ -39,7 +41,7 @@ formEl.addEventListener('submit', (evt) => {
     tagEl.value = '';
     linkEl.value = '';
 
-    rebuildTree(listEl, linkList, link, location);
+    rebuildTree(listEl, linkList);
 
 });
 
