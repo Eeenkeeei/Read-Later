@@ -21,20 +21,17 @@ formEl.addEventListener('submit', (evt) => {
     nameEl.value = nameEl.value.trim();
 
     const linkTag = tagEl.value; // поле ввода тегов
+    const tagsForList = tagEl.value; // строка тегов без разделения
 
     const link = linkEl.value; // поле ввода ссылки
     linkEl.value = linkEl.value.trim();
-
-
 
     let location = "toRead";
 
     const linkNameEl = document.querySelector('#link-name');
     const linkTagsEl = document.querySelector('#link-tags');
 
-
-
-    const line = new Link(linkName, linkTag, link, location);
+    const line = new Link(linkName, linkTag, tagsForList, link, location);
     linkList.add(line);
 
     nameEl.value = '';
@@ -52,17 +49,21 @@ function rebuildTree(container, list) {
         liEl.className = 'list-group-item col-10';
 
         liEl.innerHTML = `
+
             <input type="checkbox" id="i-checkbox">
             <a href="${item.link}"><span data-id="text" class="badge badge-info"><h6>${item.name}</h6></span></a>
-            <span data-id="text1" class="badge badge-success"><h6>${item.tag}</h6> </span>
+            <span data-id="text1" class="badge badge-success"><h6>${item.tagsForList}</h6> </span>
             <button data-id="remove" class="btn btn-danger btn-sm float-right">Удалить</button>
+            
         `;
 
         const checkboxEl = liEl.querySelector('#i-checkbox');
-            checkboxEl.addEventListener('change', (evt) => { // change можно заменить на input !!!!!!!!!
+            checkboxEl.addEventListener('change', (evt) => {
                 linkList.changeLocation(item);
                 console.log(item);
-                rebuildTree(container, list);
+                // rebuildTree(container, list);
+
+
             });
 
         const removeEl = liEl.querySelector('[data-id=remove]');

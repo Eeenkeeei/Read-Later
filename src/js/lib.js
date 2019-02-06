@@ -1,9 +1,10 @@
 export class Link {
-    constructor(name, tag, link, location) {
+    constructor(name, tag, tagsForList, link, location) {
         this.name = name;
         this.tag = tag.split("#");
         this.link = link;
         this.location = location;
+        this.tagsForList = tagsForList;
 
     }
 }
