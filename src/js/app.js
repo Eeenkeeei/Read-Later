@@ -34,6 +34,8 @@ formEl.addEventListener('submit', (evt) => {
     const line = new Link(linkName, linkTag, tagsForList, link, location);
     linkList.add(line);
 
+    // TODO: валидация 3 полей
+
     nameEl.value = '';
     tagEl.value = '';
     linkEl.value = '';
@@ -47,14 +49,19 @@ function rebuildTree(container, list) {
     for (const item of list.items) {
         const liEl = document.createElement('li');
         liEl.className = 'list-group-item col-10';
+        let index = 0;
+        for (index = 0; index<item.tag.length; index++) {
+
+
+        }
+
+        // TODO: ОТОБРАЖЕНИЕ ТЕГОВ ПО ОТДЕЛЬНОСТИ ИЗ МАССИВ ЧТОБЫ УБРАТЬ ЛИШНИЙ АРГУМЕНТ
 
         liEl.innerHTML = `
-
             <input type="checkbox" id="i-checkbox">
             <a href="${item.link}"><span data-id="text" class="badge badge-info"><h6>${item.name}</h6></span></a>
-            <span data-id="text1" class="badge badge-success"><h6>${item.tagsForList}</h6> </span>
+            <span data-id="text1" class="badge badge-success"><h6>${item.tagsForList}</h6></span>
             <button data-id="remove" class="btn btn-danger btn-sm float-right">Удалить</button>
-            
         `;
 
         const checkboxEl = liEl.querySelector('#i-checkbox');
