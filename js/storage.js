@@ -11,6 +11,11 @@ export class LinksLocalStorage {
     add(item) {
         this.items.push(item);
         item.tag.shift();
+        const tags = [];
+        for (const tag of item.tag) {
+            tags.push(tag.trim());
+        }
+        item.tag = tags;
         this.save();
     }
 
