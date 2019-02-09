@@ -2,7 +2,15 @@
     margin-left: 5px;
 }
 
-.btn {
-    margin-top: 10px;
+#add-item {
+    margin-top: 9px;
     margin-left: 15px;
+}
+
+.error{
+    border-color: red;
+    box-shadow: none !important;
+    outline: none !important;
+    outline: 0;
+    transition-duration: 1s;
 }

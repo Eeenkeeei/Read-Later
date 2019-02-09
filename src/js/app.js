@@ -12,7 +12,10 @@ const linkList = new LinkList(new LinksLocalStorage());
 
 rebuildTree(listEl, linkList);
 
-const addButton = document.querySelector('#add-item');
+const addButtonEl = document.querySelector('#add-item'); // кнопка добавления
+
+nameEl.className = 'form-control';
+
 
 formEl.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -28,13 +31,17 @@ formEl.addEventListener('submit', (evt) => {
 
     let location = "toRead";
 
-    const linkNameEl = document.querySelector('#link-name');
-    const linkTagsEl = document.querySelector('#link-tags');
+    if (validation(nameEl.value, tagEl.value, linkEl.value) === true ){
+        return;
+    }
+
+    nameEl.className = 'form-control';
+    tagEl.className = 'form-control';
+    linkEl.className = 'form-control';
 
     const line = new Link(linkName, linkTag, tagsForList, link, location);
     linkList.add(line);
 
-    // TODO: валидация 3 полей
 
     nameEl.value = '';
     tagEl.value = '';
@@ -87,3 +94,34 @@ function rebuildTree(container, list) {
 
 }
 
+function validation (name, tag, link) {
+    let result;
+    if (name === ''){
+        nameEl.className = 'form-control error';
+        result = true;
+    }
+
+    if (tag === ''){
+        tagEl.className = 'form-control error';
+        result = true;
+
+    }
+
+    if (link === ''){
+        linkEl.className = 'form-control error';
+        result = true;
+    }
+
+    if ((name !== '') && (nameEl.className === 'form-control error')) {
+        nameEl.className = 'form-control'
+    }
+
+    if ((tag !== '') && (tagEl.className === 'form-control error')) {
+        tagEl.className = 'form-control'
+    }
+
+    if ((link !== '') && (linkEl.className === 'form-control error')) {
+        linkEl.className = 'form-control'
+    }
+    return result;
+}
