@@ -56,10 +56,15 @@ function rebuildTree(container, list) {
     for (const item of list.items) {
         const liEl = document.createElement('li');
         liEl.className = 'list-group-item col-10';
-        let index = 0;
-        for (index = 0; index<item.tag.length; index++) {
-
-
+        // let index = 0;
+        // for (index = 0; index<item.tag.length; index++) {
+        //
+        //
+        // }
+        let tagsHTML = '';
+        for (const tag of item.tag) {
+            tagsHTML += `<span data-id="text1" class="badge badge-success"><h6>#${tag}</h6></span>`;
+            tagsHTML += `  `
         }
 
         // TODO: ОТОБРАЖЕНИЕ ТЕГОВ ПО ОТДЕЛЬНОСТИ ИЗ МАССИВ ЧТОБЫ УБРАТЬ ЛИШНИЙ АРГУМЕНТ
@@ -67,7 +72,7 @@ function rebuildTree(container, list) {
         liEl.innerHTML = `
             <input type="checkbox" id="i-checkbox">
             <a href="${item.link}"><span data-id="text" class="badge badge-info"><h6>${item.name}</h6></span></a>
-            <span data-id="text1" class="badge badge-success"><h6>${item.tagsForList}</h6></span>
+            ${tagsHTML}
             <button data-id="remove" class="btn btn-danger btn-sm float-right">Удалить</button>
         `;
 
@@ -96,18 +101,18 @@ function rebuildTree(container, list) {
 
 function validation (name, tag, link) {
     let result;
-    if (name === ''){
+    if (name === '') {
         nameEl.className = 'form-control error';
         result = true;
     }
 
-    if (tag === ''){
+    if (tag === '') {
         tagEl.className = 'form-control error';
         result = true;
 
     }
 
-    if (link === ''){
+    if (link === '') {
         linkEl.className = 'form-control error';
         result = true;
     }
@@ -124,4 +129,5 @@ function validation (name, tag, link) {
         linkEl.className = 'form-control'
     }
     return result;
+
 }
