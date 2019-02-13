@@ -31,7 +31,7 @@ formEl.addEventListener('submit', (evt) => {
 
     let location = "toRead";
 
-    if (validation(nameEl.value, tagEl.value, linkEl.value) === true ){
+    if (validation(nameEl.value, tagEl.value, linkEl.value) === true) {
         return;
     }
 
@@ -51,6 +51,16 @@ formEl.addEventListener('submit', (evt) => {
 
 });
 
+const findFormEl = document.querySelector('#find-form');
+
+findFormEl.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const findNameEl = document.querySelector('#find-name');
+    let findName = findNameEl.value;
+    linkList.finder(findName);
+});
+
 function rebuildTree(container, list) {
     container.innerHTML = '';
     for (const item of list.items) {
@@ -67,8 +77,6 @@ function rebuildTree(container, list) {
             tagsHTML += `  `
         }
 
-        // TODO: ОТОБРАЖЕНИЕ ТЕГОВ ПО ОТДЕЛЬНОСТИ ИЗ МАССИВ ЧТОБЫ УБРАТЬ ЛИШНИЙ АРГУМЕНТ
-
         liEl.innerHTML = `
             <input type="checkbox" id="i-checkbox">
             <a href="${item.link}"><span data-id="text" class="badge badge-info"><h6>${item.name}</h6></span></a>
@@ -77,13 +85,13 @@ function rebuildTree(container, list) {
         `;
 
         const checkboxEl = liEl.querySelector('#i-checkbox');
-            checkboxEl.addEventListener('change', (evt) => {
-                linkList.changeLocation(item);
-                console.log(item);
-                // rebuildTree(container, list);
+        checkboxEl.addEventListener('change', (evt) => {
+            linkList.changeLocation(item);
+            console.log(item);
+            // rebuildTree(container, list);
 
 
-            });
+        });
 
         const removeEl = liEl.querySelector('[data-id=remove]');
         removeEl.addEventListener('click', (evt) => {
@@ -99,7 +107,7 @@ function rebuildTree(container, list) {
 
 }
 
-function validation (name, tag, link) {
+function validation(name, tag, link) {
     let result;
     if (name === '') {
         nameEl.className = 'form-control error';

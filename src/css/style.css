@@ -7,6 +7,11 @@
     margin-left: 25px;
 }
 
+#find-form {
+    margin-top: 10px;
+    margin-left: px;
+}
+
 .error{
     border-color: red;
     box-shadow: none !important;
