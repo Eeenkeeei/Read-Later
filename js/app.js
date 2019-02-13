@@ -7,7 +7,6 @@ const linkEl = document.querySelector('#link'); // Поле ввода ссыл�
 
 const formEl = document.querySelector('#add-form'); // вся форма добавления
 const listEl = document.querySelector('#link-list'); // список, названия
-const tagsEl = document.querySelector('#link-tags'); // список, теги
 const linkList = new LinkList(new LinksLocalStorage());
 
 rebuildTree(listEl, linkList);
@@ -47,7 +46,7 @@ formEl.addEventListener('submit', (evt) => {
     tagEl.value = '';
     linkEl.value = '';
 
-    rebuildTree(listEl, linkList);
+    rebuildTree(findFormEl, linkList);
 
 });
 
@@ -58,7 +57,34 @@ findFormEl.addEventListener('submit', (evt) => {
     const findNameEl = document.querySelector('#find-name'); // поле ввода для поиска
     let findName = findNameEl.value;
     linkList.finder(findName);
+    rebuildFinder(findListEl, linkList);
 });
+
+const findListEl = document.querySelector('#find-link-list'); // список, названия
+
+function rebuildFinder(container, list) {
+    container.innerHTML = '';
+    for (const item of list.storage.resultObjects) {
+        const liEl = document.createElement('li');
+        liEl.className = 'list-group-item col-10';
+        let tagsHTML = '';
+        for (const tag of item.tag) {
+            tagsHTML += `<span data-id="text1" class="badge badge-success"><h6>#${tag}</h6></span>`;
+            tagsHTML += `  `
+        }
+
+        liEl.innerHTML = `
+            <a href="${item.link}"><span data-id="text" class="badge badge-info"><h6>${item.name}</h6></span></a>
+            ${tagsHTML}
+        `;
+
+        container.appendChild(liEl);
+
+    }
+
+
+}
+
 
 function rebuildTree(container, list) {
     container.innerHTML = '';

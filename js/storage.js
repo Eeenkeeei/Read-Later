@@ -83,7 +83,6 @@ export class LinksLocalStorage {
             findName = findName.slice(1); // удаление решетки для поиска
             findName.toLowerCase();
             const tags = [];
-            const tagsIndexes = [];
             for (const item of this.items) {
                 tags.push(item.tag.join());
             }
