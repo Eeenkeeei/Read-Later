@@ -6,6 +6,7 @@ export class LinksLocalStorage {
         } else {
             this.items = [];
         }
+        this.resultObjects = [];
     }
 
     add(item) {
@@ -46,36 +47,44 @@ export class LinksLocalStorage {
     }
     
     finder (findName) {
-        const names = [];
-        const resultIndexes = [];
-        for (const item of this.items) {
-            names.push(item.name);
-        }
-
-        // фильтр по findName
-        const filterItems = (query) => {
-            return names.filter((el) =>
-                el.toLowerCase().indexOf(query.toLowerCase()) > -1);
-
-        };
-        let result = filterItems(findName); // массив названий с совпадением с findName
-
-        // проверка на наличие
-        if (result.length === 0){
-            console.log('error');
-            return;
-        }
-
-        // достать объекты с совпадением
-        for (const names1 of result) {
+        if (findName.charAt(0) !== '#') {
+            const names = [];
             for (const item of this.items) {
-                if (names1 === item.name){
-                    resultIndexes.push(item);
+                names.push(item.name);
+            }
+
+            // фильтр по findName
+            const filterItems = (query) => {
+                return names.filter((el) =>
+                    el.toLowerCase().indexOf(query.toLowerCase()) > -1);
+
+            };
+            let result = filterItems(findName); // массив названий с совпадением с findName
+
+            // проверка на наличие
+            if (result.length === 0) {
+                console.log('error');
+                return;
+            }
+
+            // достать объекты с совпадением
+            for (const names1 of result) {
+                for (const item of this.items) {
+                    if (names1 === item.name) {
+                        this.resultObjects.push(item);
+                    }
                 }
             }
+            console.log('Совпадения:', this.resultObjects)
+
         }
-    console.log('Совпадения:', resultIndexes);
+
+        if (findName.charAt(0) === '#'){
+            console.log('#');
+        }
     }
+
+
 
 }
 
