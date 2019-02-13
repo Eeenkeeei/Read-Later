@@ -65,11 +65,6 @@ function rebuildTree(container, list) {
     for (const item of list.items) {
         const liEl = document.createElement('li');
         liEl.className = 'list-group-item col-10';
-        // let index = 0;
-        // for (index = 0; index<item.tag.length; index++) {
-        //
-        //
-        // }
         let tagsHTML = '';
         for (const tag of item.tag) {
             tagsHTML += `<span data-id="text1" class="badge badge-success"><h6>#${tag}</h6></span>`;
@@ -96,7 +91,6 @@ function rebuildTree(container, list) {
             rebuildTree(container, list);
 
         });
-
         container.appendChild(liEl);
 
     }
