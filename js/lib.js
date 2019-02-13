@@ -1,11 +1,9 @@
 export class Link {
-    constructor(name, tag, tagsForList, link, location) {
+    constructor(name, tag, link, location) {
         this.name = name;
         this.tag = tag.split("#");
         this.link = link;
         this.location = location;
-        this.tagsForList = tagsForList;
-
     }
 }
 
@@ -14,7 +12,7 @@ export class LinkList {
         this.storage = storage;
     }
 
-    get items() {                       // getter
+    get items() {                     
         return this.storage.items;
     }
 
@@ -32,6 +30,10 @@ export class LinkList {
 
     changeLocation(item){
         this.storage.changeLocation(item);
+    }
+    
+    finder (findName){
+        this.storage.finder(findName);
     }
 
 }

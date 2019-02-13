@@ -29,9 +29,9 @@ formEl.addEventListener('submit', (evt) => {
     const link = linkEl.value; // поле ввода ссылки
     linkEl.value = linkEl.value.trim();
 
-    let location = "toRead";
+    let location = false; // false - не прочитано, true - прочитано
 
-    if (validation(nameEl.value, tagEl.value, linkEl.value) === true ){
+    if (validation(nameEl.value, tagEl.value, linkEl.value) === true) {
         return;
     }
 
@@ -39,7 +39,7 @@ formEl.addEventListener('submit', (evt) => {
     tagEl.className = 'form-control';
     linkEl.className = 'form-control';
 
-    const line = new Link(linkName, linkTag, tagsForList, link, location);
+    const line = new Link(linkName, linkTag, link, location);
     linkList.add(line);
 
 
@@ -51,23 +51,25 @@ formEl.addEventListener('submit', (evt) => {
 
 });
 
+const findFormEl = document.querySelector('#find-form'); // форма поиска
+
+findFormEl.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const findNameEl = document.querySelector('#find-name'); // поле ввода для поиска
+    let findName = findNameEl.value;
+    linkList.finder(findName);
+});
+
 function rebuildTree(container, list) {
     container.innerHTML = '';
     for (const item of list.items) {
         const liEl = document.createElement('li');
         liEl.className = 'list-group-item col-10';
-        // let index = 0;
-        // for (index = 0; index<item.tag.length; index++) {
-        //
-        //
-        // }
         let tagsHTML = '';
         for (const tag of item.tag) {
             tagsHTML += `<span data-id="text1" class="badge badge-success"><h6>#${tag}</h6></span>`;
             tagsHTML += `  `
         }
-
-        // TODO: ОТОБРАЖЕНИЕ ТЕГОВ ПО ОТДЕЛЬНОСТИ ИЗ МАССИВ ЧТОБЫ УБРАТЬ ЛИШНИЙ АРГУМЕНТ
 
         liEl.innerHTML = `
             <input type="checkbox" id="i-checkbox">
@@ -77,13 +79,11 @@ function rebuildTree(container, list) {
         `;
 
         const checkboxEl = liEl.querySelector('#i-checkbox');
-            checkboxEl.addEventListener('change', (evt) => {
-                linkList.changeLocation(item);
-                console.log(item);
-                // rebuildTree(container, list);
-
-
-            });
+        checkboxEl.addEventListener('change', (evt) => {
+            linkList.changeLocation(item);
+            console.log(item);
+            // rebuildTree(container, list);
+        });
 
         const removeEl = liEl.querySelector('[data-id=remove]');
         removeEl.addEventListener('click', (evt) => {
@@ -91,7 +91,6 @@ function rebuildTree(container, list) {
             rebuildTree(container, list);
 
         });
-
         container.appendChild(liEl);
 
     }
@@ -99,7 +98,7 @@ function rebuildTree(container, list) {
 
 }
 
-function validation (name, tag, link) {
+function validation(name, tag, link) {
     let result;
     if (name === '') {
         nameEl.className = 'form-control error';
