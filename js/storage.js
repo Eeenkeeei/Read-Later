@@ -64,8 +64,7 @@ export class LinksLocalStorage {
             let result = filter(findName); // массив названий с совпадением с findName
             // проверка на наличие
             if (result.length === 0) {
-                console.log('error');
-                return;
+                return false;
             }
 
             // достать объекты с совпадением
@@ -76,8 +75,6 @@ export class LinksLocalStorage {
                     }
                 }
             }
-            console.log('Совпадения:', this.resultObjects)
-
         }
         if (findName.charAt(0) === '#') {
             findName = findName.slice(1); // удаление решетки для поиска
@@ -86,16 +83,17 @@ export class LinksLocalStorage {
             for (const item of this.items) {
                 tags.push(item.tag.join());
             }
-            console.log(tags);
             // фильтр по findName
             const filter = (query) => {
                 return tags.filter( (el) =>
                     el.toLowerCase().indexOf(query.toLowerCase()) > -1
                 );
-
             };
             let result = filter(findName); // массив названий с совпадением с findName
-            console.log(result);
+            // проверка на наличие
+            if (result.length === 0) {
+                return false;
+            }
 
             for (const tags of result) {
                 for (const item of this.items) {
@@ -104,11 +102,7 @@ export class LinksLocalStorage {
                     }
                 }
             }
-            console.log('Совпадения:', this.resultObjects)
-
         }
     }
-
-
 }
 
