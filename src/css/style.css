@@ -9,7 +9,7 @@
 
 #find-form {
     margin-top: 10px;
-    margin-left: px;
+
 }
 
 .error{
@@ -18,4 +18,8 @@
     outline: none !important;
     outline: 0;
     transition-duration: 1s;
+}
+
+.finder {
+    width: 150px;
 }
