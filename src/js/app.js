@@ -29,7 +29,7 @@ formEl.addEventListener('submit', (evt) => {
     const link = linkEl.value; // поле ввода ссылки
     linkEl.value = linkEl.value.trim();
 
-    let location = "toRead";
+    let location = false; // false - не прочитано, true - прочитано
 
     if (validation(nameEl.value, tagEl.value, linkEl.value) === true) {
         return;
@@ -51,12 +51,11 @@ formEl.addEventListener('submit', (evt) => {
 
 });
 
-const findFormEl = document.querySelector('#find-form');
+const findFormEl = document.querySelector('#find-form'); // форма поиска
 
 findFormEl.addEventListener('submit', (evt) => {
     evt.preventDefault();
-
-    const findNameEl = document.querySelector('#find-name');
+    const findNameEl = document.querySelector('#find-name'); // поле ввода для поиска
     let findName = findNameEl.value;
     linkList.finder(findName);
 });
@@ -89,8 +88,6 @@ function rebuildTree(container, list) {
             linkList.changeLocation(item);
             console.log(item);
             // rebuildTree(container, list);
-
-
         });
 
         const removeEl = liEl.querySelector('[data-id=remove]');

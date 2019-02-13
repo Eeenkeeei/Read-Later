@@ -35,10 +35,10 @@ export class LinksLocalStorage {
     }
 
     changeLocation (item) {
-        if (item.location === "read") {
-            item.location = "toRead"
+        if (item.location === true) {
+            item.location = false;
         } else
-       item.location = "read";
+       item.location = true;
         this.save();
     }
 
