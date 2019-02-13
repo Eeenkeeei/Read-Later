@@ -20,6 +20,11 @@
     transition-duration: 1s;
 }
 
-.finder {
-    width: 150px;
+#find-name {
+    width: 645px;
+}
+
+#find-button {
+    margin-top: 9px;
+    margin-left: 15px;
 }
