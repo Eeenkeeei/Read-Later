@@ -39,7 +39,7 @@ formEl.addEventListener('submit', (evt) => {
     tagEl.className = 'form-control';
     linkEl.className = 'form-control';
 
-    const line = new Link(linkName, linkTag, tagsForList, link, location);
+    const line = new Link(linkName, linkTag, link, location);
     linkList.add(line);
 
 

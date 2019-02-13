@@ -83,6 +83,7 @@ export class LinksLocalStorage {
             findName = findName.slice(1); // удаление решетки для поиска
             findName.toLowerCase();
             const tags = [];
+            const tagsIndexes = [];
             for (const item of this.items) {
                 tags.push(item.tag.join());
             }
@@ -97,10 +98,14 @@ export class LinksLocalStorage {
             let result = filter(findName); // массив названий с совпадением с findName
             console.log(result);
 
-            for (const resultElement of result) {
-
+            for (const tags of result) {
+                for (const item of this.items) {
+                    if (tags === item.tag.join()) {
+                        this.resultObjects.push(item);
+                    }
+                }
             }
-
+            console.log('Совпадения:', this.resultObjects)
 
         }
     }
