@@ -35,6 +35,10 @@
 
 }
 
-#find-list {
+#finder-list {
     width: 890px;
+}
+
+#finder-container {
+    margin-right: 160px;
 }
