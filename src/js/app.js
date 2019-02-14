@@ -74,6 +74,7 @@ findFormEl.addEventListener('submit', (evt) => {
     }
     errorBox.innerHTML = '';
     rebuildFinderTree(findListEl, linkList)
+
 });
 
 function rebuildFinderTree(container, list) {
