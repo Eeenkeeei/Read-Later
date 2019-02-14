@@ -21,15 +21,25 @@
 }
 
 #find-name {
+    margin-left: 10px;
     width: 645px;
 }
 
 #find-button {
-    margin-top: 9px;
-    margin-left: 15px;
+    margin-top: -63px;
+    margin-left: 680px;
 }
 
 #error-box {
     margin-left: 15px;
 
+}
+
+#finder-list {
+    width: 920px;
+    margin-right: 60px;
+}
+
+#finder-container {
+    margin-right: 160px;
 }

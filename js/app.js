@@ -7,8 +7,9 @@ const linkEl = document.querySelector('#link'); // Поле ввода ссыл�
 
 const formEl = document.querySelector('#add-form'); // вся форма добавления
 const listEl = document.querySelector('#link-list'); // список, названия
-const linkList = new LinkList(new LinksLocalStorage());
+const findListEl = document.querySelector('#finder-list'); // список поиска
 const findNameEl = document.querySelector('#find-name'); // поле ввода для поиска
+const linkList = new LinkList(new LinksLocalStorage());
 
 rebuildTree(listEl, linkList);
 
@@ -31,7 +32,7 @@ formEl.addEventListener('submit', (evt) => {
 
     let location = false; // false - не прочитано, true - прочитано
 
-    if (validationInputForm(nameEl.value, tagEl.value, linkEl.value, findFormEl.value) === true) {
+    if (validationInputForm(nameEl.value, tagEl.value, linkEl.value) === true) {
         return;
     }
 
@@ -47,16 +48,16 @@ formEl.addEventListener('submit', (evt) => {
     tagEl.value = '';
     linkEl.value = '';
 
-    rebuildTree(findFormEl, linkList);
+    rebuildTree(listEl, linkList);
 
 });
 
 const findFormEl = document.querySelector('#find-form'); // форма поиска
 const errorBox = document.querySelector('#error-box'); // див для ошибок
 
-findFormEl.addEventListener('submit', (evt, findFormEl) => {
+findFormEl.addEventListener('submit', (evt) => {
     evt.preventDefault();
-
+    const findNameEl = document.querySelector('#find-name'); // поле ввода для поиска
     let findName = findNameEl.value;
     linkList.finder(findName);
     if (validationFindForm(findNameEl.value) === true) {
@@ -72,14 +73,13 @@ findFormEl.addEventListener('submit', (evt, findFormEl) => {
         return;
     }
     errorBox.innerHTML = '';
-    rebuildFinder(findListEl, linkList);
+    rebuildFinderTree(findListEl, linkList)
+
 });
 
-const findListEl = document.querySelector('#find-link-list'); // список, названия
-
-function rebuildFinder(container, list) {
+function rebuildFinderTree(container, list) {
     container.innerHTML = '';
-    for (const item of list.storage.resultObjects) {
+    for (const item of linkList.storage.resultObjects) {
         const liEl = document.createElement('li');
         liEl.className = 'list-group-item col-10';
         let tagsHTML = '';
@@ -92,11 +92,15 @@ function rebuildFinder(container, list) {
             <a href="${item.link}"><span data-id="text" class="badge badge-info"><h6>${item.name}</h6></span></a>
             ${tagsHTML}
         `;
+
+
         container.appendChild(liEl);
 
     }
 
+
 }
+
 
 function rebuildTree(container, list) {
     container.innerHTML = '';
@@ -152,6 +156,7 @@ function validationFindForm(findName) {
 
 }
 
+
 function validationInputForm(name, tag, link) {
     let result;
     if (name === '') {
@@ -170,7 +175,6 @@ function validationInputForm(name, tag, link) {
         result = true;
     }
 
-
     if ((name !== '') && (nameEl.className === 'form-control error')) {
         nameEl.className = 'form-control'
     }
@@ -182,7 +186,6 @@ function validationInputForm(name, tag, link) {
     if ((link !== '') && (linkEl.className === 'form-control error')) {
         linkEl.className = 'form-control'
     }
-
     return result;
 
 }
