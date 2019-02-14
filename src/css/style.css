@@ -21,13 +21,13 @@
 }
 
 #find-name {
-    margin-right: 260px;
+    margin-left: 10px;
     width: 645px;
 }
 
 #find-button {
-    margin-top: 15px;
-    margin-left: -240px;
+    margin-top: -63px;
+    margin-left: 680px;
 }
 
 #error-box {
@@ -36,7 +36,8 @@
 }
 
 #finder-list {
-    width: 890px;
+    width: 920px;
+    margin-right: 60px;
 }
 
 #finder-container {
