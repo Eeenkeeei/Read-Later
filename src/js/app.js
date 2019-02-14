@@ -7,7 +7,8 @@ const linkEl = document.querySelector('#link'); // Поле ввода ссыл�
 
 const formEl = document.querySelector('#add-form'); // вся форма добавления
 const listEl = document.querySelector('#link-list'); // список, названия
-const findListEl = document.querySelector('#finder-list');
+const findListEl = document.querySelector('#finder-list'); // список поиска
+const findNameEl = document.querySelector('#find-name'); // поле ввода для поиска
 const linkList = new LinkList(new LinksLocalStorage());
 
 rebuildTree(listEl, linkList);
@@ -31,7 +32,7 @@ formEl.addEventListener('submit', (evt) => {
 
     let location = false; // false - не прочитано, true - прочитано
 
-    if (validation(nameEl.value, tagEl.value, linkEl.value) === true) {
+    if (validationInputForm(nameEl.value, tagEl.value, linkEl.value) === true) {
         return;
     }
 
@@ -52,12 +53,26 @@ formEl.addEventListener('submit', (evt) => {
 });
 
 const findFormEl = document.querySelector('#find-form'); // форма поиска
+const errorBox = document.querySelector('#error-box'); // див для ошибок
 
 findFormEl.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const findNameEl = document.querySelector('#find-name'); // поле ввода для поиска
     let findName = findNameEl.value;
     linkList.finder(findName);
+    if (validationFindForm(findNameEl.value) === true) {
+        return;
+    }
+    if (linkList.storage.resultObjects.length === 0) {
+        errorBox.innerHTML = '';
+        const errorEl = document.createElement('span');
+        errorEl.className = 'alert alert-warning';
+        errorEl.innerHTML = `Запись не найдена`;
+        errorBox.appendChild(errorEl);
+        findListEl.innerHTML = '';
+        return;
+    }
+    errorBox.innerHTML = '';
     rebuildFinderTree(findListEl, linkList)
 });
 
@@ -124,7 +139,24 @@ function rebuildTree(container, list) {
 
 }
 
-function validation(name, tag, link) {
+function validationFindForm(findName) {
+    let result;
+    if (findName === '') {
+        findNameEl.className = 'form-control error';
+        result = true;
+    }
+
+    if ((findName !== '') && (findNameEl.className === 'form-control error')) {
+        findNameEl.className = 'form-control';
+        result = true;
+    }
+
+    return result;
+
+}
+
+
+function validationInputForm(name, tag, link) {
     let result;
     if (name === '') {
         nameEl.className = 'form-control error';
