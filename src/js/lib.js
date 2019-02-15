@@ -36,4 +36,8 @@ export class LinkList {
         this.storage.finder(findName);
     }
 
+    editElement (item, editLinkName, editLinkTag, editLink){
+        this.storage.editElement (item, editLinkName, editLinkTag, editLink);
+    }
+
 }
