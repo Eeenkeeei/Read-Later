@@ -51,3 +51,16 @@
 #edit-form {
     margin-top: 10px;
 }
+
+#edit-link-name {
+    width: 180px;
+}
+
+#edit-link-tag {
+    width: 185px;
+}
+
+#edit-item {
+    margin-top: 9px;
+    margin-left: 14px;
+}
