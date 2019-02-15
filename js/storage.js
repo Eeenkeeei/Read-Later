@@ -46,6 +46,7 @@ export class LinksLocalStorage {
         localStorage.setItem('links', JSON.stringify(this.items)) // stringify - преобразование объекта в строку
     }
 
+    // todo: переделать чтобы искать точные совпадения
     finder(findName) {
         this.resultObjects = [];
         if (findName.charAt(0) !== '#') {
@@ -103,6 +104,20 @@ export class LinksLocalStorage {
                 }
             }
         }
+    }
+
+    editElement (item, editLinkName, editLinkTag, editLink) {
+        item.name = editLinkName;
+        editLinkTag = editLinkTag.split("#");
+        item.tag = editLinkTag;
+        item.tag.shift();
+        const tags = [];
+        for (const tag of item.tag) {
+            tags.push(tag.trim());
+        }
+        item.tag = tags;
+        item.link = editLink;
+        this.save();
     }
 }
 
