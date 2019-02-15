@@ -119,7 +119,6 @@ function rebuildTree(container, list) {
         const editButtonEl = liEl.querySelector('#edit');
         editButtonEl.addEventListener('click', () => {
             const editFormEl = document.createElement('div');
-            // editFormEl.className = 'form-inline';
             editFormEl.innerHTML = ``;
             editFormEl.innerHTML = `
            <form class="form-inline" id="edit-form">
@@ -147,40 +146,13 @@ function rebuildTree(container, list) {
                 let editLinkTag = editLinkTagEl.value;
                 let editLink = editLinkEl.value;
                 list.editElement(item, editLinkName, editLinkTag, editLink);
+                rebuildTree(container, list);
                 editFormEl.appendChild(editSaveButtonEl);
-                editSaveButtonEl.addEventListener('submit', (evt) => {
-                    console.log('bubbling');
-                    console.log(evt);
 
-                    console.log(evt.target.parentElement); // что угодно, от ul до его детей (на произвольную глубину)
-                    let currentParent = evt.target.parentElement;
-                    console.log(evt.currentTarget); // всегда будет ulEllet currentParent = evt.target.parentElement;
-                    while (currentParent !== evt.currentTarget) {
-                        currentParent = currentParent.parentElement;
-                        console.log(currentParent);
-                        rebuildTree(container, list);
-                        console.log('rebuild');
-                    }
-
-
-                });
-                // if (evt.target.getAttribute('id') === 'edit-item') { // guard
-                //     // while (<expr> - truthy) { - пока верно, делаем то-то
-                //     //   тело цикла
-                //     // }
-                //     // evt.currentTarget.removeChild(evt.target.currentParent);
-                //
-                //     let currentParent = evt.target.parentElement;
-                //     while (currentParent.parentElement !== evt.currentTarget) {
-                //         currentParent = currentParent.parentElement;
-                //     }
-                // }
             });
-
             liEl.appendChild(editFormEl);
-
-
         });
+
         const checkboxEl = liEl.querySelector('#i-checkbox');
         checkboxEl.addEventListener('change', (evt) => {
             linkList.changeLocation(item);
@@ -196,7 +168,6 @@ function rebuildTree(container, list) {
 
         });
         container.appendChild(liEl);
-
 
     }
 }
@@ -258,7 +229,6 @@ function validationFindForm(findName) {
     }
 
     return result;
-
 }
 
 function validationInputForm(name, tag, link) {

@@ -73,6 +73,7 @@ export class LinksLocalStorage {
                 for (const item of this.items) {
                     if (names === item.name) {
                         this.resultObjects.push(item);
+                        // todo: ИСПРАВИТЬ ОШИБКУ ЕСЛИ ОДИНАКОВОЕ ИМЯ ВЫВОДИТСЯ В 2 РАЗА БОЛЬШЕ РЕЗУЛЬТАТОВ
                     }
                 }
             }
