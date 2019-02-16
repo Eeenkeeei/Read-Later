@@ -8,6 +8,7 @@ const formEl = document.querySelector('#add-form'); // вся форма доб�
 const listEl = document.querySelector('#link-list'); // список, названия
 const findListEl = document.querySelector('#finder-list'); // список поиска
 const findNameEl = document.querySelector('#find-name'); // поле ввода для поиска
+const editFormEl = document.createElement('div');
 const linkList = new LinkList(new LinksLocalStorage());
 
 rebuildTree(listEl, linkList);
@@ -53,10 +54,12 @@ formEl.addEventListener('submit', (evt) => {
 const findFormEl = document.querySelector('#find-form'); // форма поиска
 const errorBox = document.querySelector('#error-box'); // див для ошибок
 
-findFormEl.addEventListener('submit', (evt) => {
+findFormEl.addEventListener('input', (evt) => {
     evt.preventDefault();
+
     const findNameEl = document.querySelector('#find-name'); // поле ввода для поиска
     let findName = findNameEl.value;
+    console.log(findName);
     linkList.finder(findName);
     if (validationFindForm(findNameEl.value) === true) {
         return;
@@ -71,7 +74,15 @@ findFormEl.addEventListener('submit', (evt) => {
         return;
     }
     errorBox.innerHTML = '';
-    rebuildFinderTree(findListEl, linkList)
+    rebuildFinderTree(findListEl, linkList);
+
+// todo:
+//  1) если символы стерли и строка пустая, нужно стереть результаты
+//  2) почему если все стираешь и начинаешь вводить снова, поиск работает после ввода второго символа
+    if (findFormEl.value.length === 0){
+        rebuildFinderTree(findListEl, linkList)
+    }
+
 
 });
 
@@ -94,9 +105,7 @@ function rebuildFinderTree(container, list) {
 }
 
 function rebuildTree(container, list) {
-    let count = 0;
     container.innerHTML = '';
-
     for (const item of list.items)
         // if (item.location !== true)
     {
@@ -117,9 +126,8 @@ function rebuildTree(container, list) {
         `;
 
         const editButtonEl = liEl.querySelector('#edit');
-        editButtonEl.addEventListener('click', () => {
-            const editFormEl = document.createElement('div');
-            editFormEl.innerHTML = ``;
+        editButtonEl.addEventListener('click', (evt) => {
+            editFormEl.innerHTML = '';
             editFormEl.innerHTML = `
            <form class="form-inline" id="edit-form">
                 <div class="form-group mb-2">
@@ -136,6 +144,7 @@ function rebuildTree(container, list) {
                 </div>
             </form>
            `;
+
             editFormEl.addEventListener('submit', (evt) => {
                 evt.preventDefault();
                 const editLinkNameEl = document.querySelector('#edit-link-name');
@@ -148,10 +157,12 @@ function rebuildTree(container, list) {
                 list.editElement(item, editLinkName, editLinkTag, editLink);
                 rebuildTree(container, list);
                 editFormEl.appendChild(editSaveButtonEl);
-
             });
+
             liEl.appendChild(editFormEl);
+
         });
+
 
         const checkboxEl = liEl.querySelector('#i-checkbox');
         checkboxEl.addEventListener('change', (evt) => {
