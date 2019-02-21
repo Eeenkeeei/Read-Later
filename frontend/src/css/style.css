@@ -22,7 +22,13 @@
 
 #find-name {
     margin-left: 10px;
-    width: 645px;
+    width: 710px;
+    margin-bottom: 10px;
+
+}
+
+#find-div {
+    margin-top: 10px;
 }
 
 #find-button {
@@ -63,4 +69,8 @@
 #edit-item {
     margin-top: 9px;
     margin-left: 14px;
+}
+
+#read {
+    margin-top: 15px;
 }

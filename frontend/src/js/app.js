@@ -54,33 +54,35 @@ formEl.addEventListener('submit', (evt) => {
 const findFormEl = document.querySelector('#find-form'); // форма поиска
 const errorBox = document.querySelector('#error-box'); // див для ошибок
 
+findFormEl.addEventListener('submit', (evt) =>{
+    evt.preventDefault();               // отмена перезагрузки страницы
+});
+
 findFormEl.addEventListener('input', (evt) => {
-    evt.preventDefault();
 
     const findNameEl = document.querySelector('#find-name'); // поле ввода для поиска
     let findName = findNameEl.value;
-    console.log(findName);
-    linkList.finder(findName);
-    if (linkList.storage.resultObjects.length === 0) {
-        errorBox.innerHTML = '';
-        const errorEl = document.createElement('span');
-        errorEl.className = 'alert alert-warning';
-        errorEl.innerHTML = `Запись не найдена`;
-        errorBox.appendChild(errorEl);
-        findListEl.innerHTML = '';
-        return;
-    }
-    errorBox.innerHTML = '';
-    if (findName === '' ){
-        return
-    } else
-    rebuildFinderTree(findListEl, linkList);
+    if (findName.length >= 2) {
 
-// todo:
-//  1) если символы стерли и строка пустая, нужно стереть результаты
-//  2) почему если все стираешь и начинаешь вводить снова, поиск работает после ввода второго символа
-// todo: починить поиск из-за двух деревьев
+        linkList.finder(findName);
+        if (linkList.storage.resultObjects.length === 0) {
+            errorBox.innerHTML = '';
+            const errorEl = document.createElement('span');
+            errorEl.className = 'alert alert-warning';
+            errorEl.innerHTML = `Запись не найдена`;
+            errorBox.appendChild(errorEl);
+            findListEl.innerHTML = '';
+            return;
+        }
+        errorBox.innerHTML = '';
+        rebuildFinderTree(findListEl, linkList);
+    }
+    if (findName.length < 2) {
+        findListEl.innerHTML = '';
+        errorBox.innerHTML = '';
+    }
 });
+
 function rebuildFinderTree(container, list) {
     container.innerHTML = '';
     for (const item of linkList.storage.resultObjects) {
@@ -102,32 +104,31 @@ function rebuildFinderTree(container, list) {
 function rebuildTree(container, list) {
     container.innerHTML = '';
     for (const item of list.items)
-        if (item.location !== true)
-    {
-        const liEl = document.createElement('li');
-        liEl.className = 'list-group-item col-10';
-        let tagsHTML = '';
-        for (const tag of item.tag) {
-            tagsHTML += `<span data-id="text1" class="badge badge-success"><h6>#${tag}</h6></span>`;
-            tagsHTML += `  `
-        }
+        if (item.location !== true) {
+            const liEl = document.createElement('li');
+            liEl.className = 'list-group-item col-10';
+            let tagsHTML = '';
+            for (const tag of item.tag) {
+                tagsHTML += `<span data-id="text1" class="badge badge-success"><h6>#${tag}</h6></span>`;
+                tagsHTML += `  `
+            }
 
-        liEl.innerHTML = `
+            liEl.innerHTML = `
             <input type="checkbox" id="i-checkbox">
             <a href="${item.link}"><span data-id="text" class="badge badge-info"><h6>${item.name}</h6></span></a>
             ${tagsHTML}
             <button data-id="remove" class="btn btn-danger btn-sm float-right">Удалить</button>
             <button id="edit" class="btn btn-info btn-sm float-right">✎</button>
         `;
-        let tagList = '';
-        for (const tag of item.tag) {
-            tagList+='#'+tag;
-            tagList+=' ';
-        }
-        const editButtonEl = liEl.querySelector('#edit');
-        editButtonEl.addEventListener('click', (evt) => {
-            editFormEl.innerHTML = '';
-            editFormEl.innerHTML = `
+            let tagList = '';
+            for (const tag of item.tag) {
+                tagList += '#' + tag;
+                tagList += ' ';
+            }
+            const editButtonEl = liEl.querySelector('#edit');
+            editButtonEl.addEventListener('click', (evt) => {
+                editFormEl.innerHTML = '';
+                editFormEl.innerHTML = `
            <form class="form-inline" id="edit-form">
                 <div class="form-group mb-2">
                     <input type="text" class="form-control" placeholder="Название ссылки" id="edit-link-name" data-edit="name" value="${item.name}">
@@ -144,48 +145,49 @@ function rebuildTree(container, list) {
             </form>
            `;
 
-            editFormEl.addEventListener('submit', (evt) => {
-                evt.preventDefault();
-                const editLinkNameEl = document.querySelector('#edit-link-name');
-                const editLinkTagEl = document.querySelector('#edit-link-tag');
-                const editLinkEl = document.querySelector('#edit-link');
-                const editSaveButtonEl = document.querySelector('#edit-item');
-                let editLinkName = editLinkNameEl.value;
-                let editLinkTag = editLinkTagEl.value;
-                let editLink = editLinkEl.value;
-                list.editElement(item, editLinkName, editLinkTag, editLink);
-                rebuildTree(container, list);
-                editFormEl.appendChild(editSaveButtonEl);
+                editFormEl.addEventListener('submit', (evt) => {
+                    evt.preventDefault();
+                    const editLinkNameEl = document.querySelector('#edit-link-name');
+                    const editLinkTagEl = document.querySelector('#edit-link-tag');
+                    const editLinkEl = document.querySelector('#edit-link');
+                    const editSaveButtonEl = document.querySelector('#edit-item');
+                    let editLinkName = editLinkNameEl.value;
+                    let editLinkTag = editLinkTagEl.value;
+                    let editLink = editLinkEl.value;
+                    list.editElement(item, editLinkName, editLinkTag, editLink);
+                    rebuildTree(container, list);
+                    editFormEl.appendChild(editSaveButtonEl);
+                });
+
+                liEl.appendChild(editFormEl);
+
             });
 
-            liEl.appendChild(editFormEl);
 
-        });
+            const checkboxEl = liEl.querySelector('#i-checkbox');
+            checkboxEl.addEventListener('change', (evt) => {
+                linkList.changeLocation(item);
+                console.log(item);
+                rebuildTree(container, list);
+                rebuildReadTree(readLinksListEl, linkList);
+            });
 
+            const removeEl = liEl.querySelector('[data-id=remove]');
+            removeEl.addEventListener('click', () => {
+                linkList.remove(item);
+                rebuildTree(container, list);
 
-        const checkboxEl = liEl.querySelector('#i-checkbox');
-        checkboxEl.addEventListener('change', (evt) => {
-            linkList.changeLocation(item);
-            console.log(item);
-            rebuildTree(container, list);
-            rebuildReadTree(readLinksListEl, linkList);
-        });
+            });
+            container.appendChild(liEl);
 
-        const removeEl = liEl.querySelector('[data-id=remove]');
-        removeEl.addEventListener('click', () => {
-            linkList.remove(item);
-            rebuildTree(container, list);
-
-        });
-        container.appendChild(liEl);
-
-    }
+        }
 }
 
 const readLinksListEl = document.querySelector('#read-link-list');
 
 
 rebuildReadTree(readLinksListEl, linkList);
+
 function rebuildReadTree(container, list) {
     container.innerHTML = '';
 
@@ -208,8 +210,8 @@ function rebuildReadTree(container, list) {
         `;
             let tagList = '';
             for (const tag of item.tag) {
-                tagList+='#'+tag;
-                tagList+=' ';
+                tagList += '#' + tag;
+                tagList += ' ';
             }
             const editButtonEl = liEl.querySelector('#edit');
             editButtonEl.addEventListener('click', (evt) => {

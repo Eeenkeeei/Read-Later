@@ -73,11 +73,12 @@ export class LinksLocalStorage {
                 for (const item of this.items) {
                     if (names === item.name) {
                         this.resultObjects.push(item);
-                        // todo: ИСПРАВИТЬ ОШИБКУ ЕСЛИ ОДИНАКОВОЕ ИМЯ ВЫВОДИТСЯ В 2 РАЗА БОЛЬШЕ РЕЗУЛЬТАТОВ
                     }
                 }
             }
         }
+
+
         if (findName.charAt(0) === '#') {
             findName = findName.slice(1); // удаление решетки для поиска
             findName.toLowerCase();
@@ -101,6 +102,9 @@ export class LinksLocalStorage {
                 for (const item of this.items) {
                     if (tags === item.tag.join()) {
                         this.resultObjects.push(item);
+                        this.resultObjects = this.resultObjects.filter((item, index, arr) => {
+                            return arr.indexOf(item) === index;
+                        });
                     }
                 }
             }
