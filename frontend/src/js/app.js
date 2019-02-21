@@ -113,7 +113,7 @@ function rebuildFinderTree(container, list) {
 function rebuildTree(container, list) {
     container.innerHTML = '';
     for (const item of list.items)
-        // if (item.location !== true)
+        if (item.location !== true)
     {
         const liEl = document.createElement('li');
         liEl.className = 'list-group-item col-10';
@@ -178,8 +178,8 @@ function rebuildTree(container, list) {
         checkboxEl.addEventListener('change', (evt) => {
             linkList.changeLocation(item);
             console.log(item);
-            // rebuildTree(container, list);
-            // rebuildReadTree(readLinksListEl, linkList);
+            rebuildTree(container, list);
+            rebuildReadTree(readLinksListEl, linkList);
         });
 
         const removeEl = liEl.querySelector('[data-id=remove]');
@@ -196,46 +196,46 @@ function rebuildTree(container, list) {
 const readLinksListEl = document.querySelector('#read-link-list');
 
 //TODO: доделать
-// rebuildReadTree(readLinksListEl, linkList);
-// function rebuildReadTree(container, list) {
-//     container.innerHTML = '';
-//
-//     for (const item of list.items)
-//         if (item.location === true) {
-//             const liEl = document.createElement('li');
-//             liEl.className = 'list-group-item col-10';
-//             let tagsHTML = '';
-//             for (const tag of item.tag) {
-//                 tagsHTML += `<span data-id="text1" class="badge badge-success"><h6>#${tag}</h6></span>`;
-//                 tagsHTML += `  `
-//             }
-//
-//             liEl.innerHTML = `
-//             <input type="checkbox" id="i-checkbox">
-//             <a href="${item.link}"><span data-id="text" class="badge badge-info"><h6>${item.name}</h6></span></a>
-//             ${tagsHTML}
-//             <button data-id="remove" class="btn btn-danger btn-sm float-right">Удалить</button>
-//         `;
-//
-//             const checkboxEl = liEl.querySelector('#i-checkbox');
-//             checkboxEl.addEventListener('change', (evt) => {
-//                 linkList.changeLocation(item);
-//                 console.log(item);
-//
-//                 rebuildReadTree(readLinksListEl, linkList);
-//                 rebuildTree(container, list);
-//             });
-//
-//             const removeEl = liEl.querySelector('[data-id=remove]');
-//             removeEl.addEventListener('click', (evt) => {
-//                 linkList.remove(item);
-//                 rebuildReadTree(container, list);
-//
-//             });
-//             container.appendChild(liEl);
-//
-//         }
-// }
+
+rebuildReadTree(readLinksListEl, linkList);
+function rebuildReadTree(container, list) {
+    container.innerHTML = '';
+
+    for (const item of list.items)
+        if (item.location === true) {
+            const liEl = document.createElement('li');
+            liEl.className = 'list-group-item col-10';
+            let tagsHTML = '';
+            for (const tag of item.tag) {
+                tagsHTML += `<span data-id="text1" class="badge badge-success"><h6>#${tag}</h6></span>`;
+                tagsHTML += `  `
+            }
+
+            liEl.innerHTML = `
+            <input type="checkbox" id="i-checkbox">
+            <a href="${item.link}"><span data-id="text" class="badge badge-info"><h6>${item.name}</h6></span></a>
+            ${tagsHTML}
+            <button data-id="remove" class="btn btn-danger btn-sm float-right">Удалить</button>
+        `;
+
+            const checkboxEl = liEl.querySelector('#i-checkbox');
+            checkboxEl.addEventListener('change', (evt) => {
+                linkList.changeLocation(item);
+                console.log(item);
+                rebuildReadTree(readLinksListEl, linkList);
+                rebuildTree(listEl, linkList);
+            });
+
+            const removeEl = liEl.querySelector('[data-id=remove]');
+            removeEl.addEventListener('click', (evt) => {
+                linkList.remove(item);
+                rebuildReadTree(container, list);
+
+            });
+            container.appendChild(liEl);
+
+        }
+}
 
 function validationInputForm(name, tag, link) {
     let result;
