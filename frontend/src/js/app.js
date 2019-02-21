@@ -60,15 +60,7 @@ findFormEl.addEventListener('input', (evt) => {
     const findNameEl = document.querySelector('#find-name'); // поле ввода для поиска
     let findName = findNameEl.value;
     console.log(findName);
-
-    if (findName===''){
-        console.log('null');
-        findListEl.innerHTML = '';
-        console.log('null');
-    }
-
     linkList.finder(findName);
-
     if (linkList.storage.resultObjects.length === 0) {
         errorBox.innerHTML = '';
         const errorEl = document.createElement('span');
@@ -78,20 +70,17 @@ findFormEl.addEventListener('input', (evt) => {
         findListEl.innerHTML = '';
         return;
     }
-
     errorBox.innerHTML = '';
+    if (findName === '' ){
+        return
+    } else
     rebuildFinderTree(findListEl, linkList);
 
 // todo:
 //  1) если символы стерли и строка пустая, нужно стереть результаты
 //  2) почему если все стираешь и начинаешь вводить снова, поиск работает после ввода второго символа
-//     if (findFormEl.value.length === 0){
-//         rebuildFinderTree(findListEl, linkList)
-//     }
-
-
+// todo: починить поиск из-за двух деревьев
 });
-
 function rebuildFinderTree(container, list) {
     container.innerHTML = '';
     for (const item of linkList.storage.resultObjects) {
@@ -195,7 +184,6 @@ function rebuildTree(container, list) {
 
 const readLinksListEl = document.querySelector('#read-link-list');
 
-//TODO: доделать
 
 rebuildReadTree(readLinksListEl, linkList);
 function rebuildReadTree(container, list) {
@@ -212,16 +200,60 @@ function rebuildReadTree(container, list) {
             }
 
             liEl.innerHTML = `
-            <input type="checkbox" id="i-checkbox">
+            <input type="checkbox" id="i-checkbox" checked="true">
             <a href="${item.link}"><span data-id="text" class="badge badge-info"><h6>${item.name}</h6></span></a>
             ${tagsHTML}
             <button data-id="remove" class="btn btn-danger btn-sm float-right">Удалить</button>
+             <button id="edit" class="btn btn-info btn-sm float-right">✎</button>
         `;
+            let tagList = '';
+            for (const tag of item.tag) {
+                tagList+='#'+tag;
+                tagList+=' ';
+            }
+            const editButtonEl = liEl.querySelector('#edit');
+            editButtonEl.addEventListener('click', (evt) => {
+                editFormEl.innerHTML = '';
+                editFormEl.innerHTML = `
+           <form class="form-inline" id="edit-form">
+                <div class="form-group mb-2">
+                    <input type="text" class="form-control" placeholder="Название ссылки" id="edit-link-name" data-edit="name" value="${item.name}">
+                </div>
+                <div class="form-group mb-2">
+                    <input type="text" class="form-control" placeholder="Теги в формете #tag" id="edit-link-tag" value = "${tagList}">
+                </div>
+                <div class="form-group mb-2">
+                    <input type="text" class="form-control" placeholder="Ссылка" id="edit-link" value = "${item.link}">
+                </div>
+                <div class="addButton">
+                    <button class="btn btn-outline-primary mb-3" id="edit-item" type="submit" data-action="edit">Сохранить</button>
+                </div>
+            </form>
+           `;
+
+                editFormEl.addEventListener('submit', (evt) => {
+                    evt.preventDefault();
+                    const editLinkNameEl = document.querySelector('#edit-link-name');
+                    const editLinkTagEl = document.querySelector('#edit-link-tag');
+                    const editLinkEl = document.querySelector('#edit-link');
+                    const editSaveButtonEl = document.querySelector('#edit-item');
+                    let editLinkName = editLinkNameEl.value;
+                    let editLinkTag = editLinkTagEl.value;
+                    let editLink = editLinkEl.value;
+                    list.editElement(item, editLinkName, editLinkTag, editLink);
+                    rebuildReadTree(container, list);
+                    editFormEl.appendChild(editSaveButtonEl);
+                });
+
+                liEl.appendChild(editFormEl);
+
+            });
+
 
             const checkboxEl = liEl.querySelector('#i-checkbox');
             checkboxEl.addEventListener('change', (evt) => {
                 linkList.changeLocation(item);
-                console.log(item);
+                // checkboxEl.checked = true;
                 rebuildReadTree(readLinksListEl, linkList);
                 rebuildTree(listEl, linkList);
             });
