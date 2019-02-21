@@ -60,10 +60,15 @@ findFormEl.addEventListener('input', (evt) => {
     const findNameEl = document.querySelector('#find-name'); // поле ввода для поиска
     let findName = findNameEl.value;
     console.log(findName);
-    linkList.finder(findName);
-    if (validationFindForm(findNameEl.value) === true) {
-        return;
+
+    if (findName===''){
+        console.log('null');
+        findListEl.innerHTML = '';
+        console.log('null');
     }
+
+    linkList.finder(findName);
+
     if (linkList.storage.resultObjects.length === 0) {
         errorBox.innerHTML = '';
         const errorEl = document.createElement('span');
@@ -73,15 +78,16 @@ findFormEl.addEventListener('input', (evt) => {
         findListEl.innerHTML = '';
         return;
     }
+
     errorBox.innerHTML = '';
     rebuildFinderTree(findListEl, linkList);
 
 // todo:
 //  1) если символы стерли и строка пустая, нужно стереть результаты
 //  2) почему если все стираешь и начинаешь вводить снова, поиск работает после ввода второго символа
-    if (findFormEl.value.length === 0){
-        rebuildFinderTree(findListEl, linkList)
-    }
+//     if (findFormEl.value.length === 0){
+//         rebuildFinderTree(findListEl, linkList)
+//     }
 
 
 });
@@ -230,21 +236,6 @@ const readLinksListEl = document.querySelector('#read-link-list');
 //
 //         }
 // }
-
-function validationFindForm(findName) {
-    let result;
-    if (findName === '') {
-        findNameEl.className = 'form-control error';
-        result = true;
-    }
-
-    if ((findName !== '') && (findNameEl.className === 'form-control error')) {
-        findNameEl.className = 'form-control';
-        result = true;
-    }
-
-    return result;
-}
 
 function validationInputForm(name, tag, link) {
     let result;
