@@ -4,22 +4,32 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serve": "browser-sync start -s \"src\" -f \".\"",
-    "test": "jest"
+    "frontend": "live-server ./frontend/src",
+    "backend": "nodemon ./backend/rest.js"
   },
   "babel": {
     "presets": [
-      "@babel/preset-env"
+      [
+        "@babel/preset-env",
+        {
+          "useBuiltIns": "usage"
+        }
+      ]
     ]
   },
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "restify": "^7.7.0",
+    "restify-errors": "^6.1.1"
+  },
   "devDependencies": {
-    "@babel/core": "^7.2.0",
-    "@babel/preset-env": "^7.2.0",
-    "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "^23.6.0",
-    "browser-sync": "^2.26.3",
-    "jest": "^23.6.0"
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "babel-jest": "^24.1.0",
+    "jest": "^24.1.0",
+    "live-server": "^1.2.1",
+    "nodemon": "^1.18.10"
   }
 }

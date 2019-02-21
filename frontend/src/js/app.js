@@ -124,20 +124,24 @@ function rebuildTree(container, list) {
             <button data-id="remove" class="btn btn-danger btn-sm float-right">Удалить</button>
             <button id="edit" class="btn btn-info btn-sm float-right">✎</button>
         `;
-
+        let tagList = '';
+        for (const tag of item.tag) {
+            tagList+='#'+tag;
+            tagList+=' ';
+        }
         const editButtonEl = liEl.querySelector('#edit');
         editButtonEl.addEventListener('click', (evt) => {
             editFormEl.innerHTML = '';
             editFormEl.innerHTML = `
            <form class="form-inline" id="edit-form">
                 <div class="form-group mb-2">
-                    <input type="text" class="form-control" placeholder="Название ссылки" id="edit-link-name">
+                    <input type="text" class="form-control" placeholder="Название ссылки" id="edit-link-name" data-edit="name" value="${item.name}">
                 </div>
                 <div class="form-group mb-2">
-                    <input type="text" class="form-control" placeholder="Теги в формете #tag" id="edit-link-tag">
+                    <input type="text" class="form-control" placeholder="Теги в формете #tag" id="edit-link-tag" value = "${tagList}">
                 </div>
                 <div class="form-group mb-2">
-                    <input type="text" class="form-control" placeholder="Ссылка" id="edit-link">
+                    <input type="text" class="form-control" placeholder="Ссылка" id="edit-link" value = "${item.link}">
                 </div>
                 <div class="addButton">
                     <button class="btn btn-outline-primary mb-3" id="edit-item" type="submit" data-action="edit">Сохранить</button>
