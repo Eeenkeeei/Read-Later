@@ -19,8 +19,7 @@ server.pre((req, res, next) => {
 
 let nextId = 1;
 const items = [
-    {id: nextId++, name: 'Add Bootstrap', done: false},
-    {id: nextId++, name: 'Write tests', done: false},
+
 ];
 
 server.get('/items', (req, res, next) => {
@@ -50,6 +49,7 @@ server.post('/items', (req, res, next) => {
 
         items[index] = req.body;
     }
+
 
     res.send();
     next();

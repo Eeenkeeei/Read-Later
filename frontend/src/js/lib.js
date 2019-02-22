@@ -1,9 +1,10 @@
 export class Link {
-    constructor(name, tag, link, location) {
+    constructor(id, name, tag, link, location) {
         this.name = name;
         this.tag = tag.split("#");
         this.link = link;
         this.location = location;
+        this.id = id;
     }
 }
 
@@ -40,4 +41,7 @@ export class LinkList {
         this.storage.editElement (item, editLinkName, editLinkTag, editLink);
     }
 
+    sync (){
+        this.storage.sync();
+    }
 }

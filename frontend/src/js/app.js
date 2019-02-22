@@ -10,13 +10,11 @@ const findListEl = document.querySelector('#finder-list'); // список по�
 const findNameEl = document.querySelector('#find-name'); // поле ввода для поиска
 const editFormEl = document.createElement('div');
 const linkList = new LinkList(new LinksLocalStorage());
-
 rebuildTree(listEl, linkList);
 
 const addButtonEl = document.querySelector('#add-item'); // кнопка добавления
 
 nameEl.className = 'form-control';
-
 
 formEl.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -38,10 +36,9 @@ formEl.addEventListener('submit', (evt) => {
     nameEl.className = 'form-control';
     tagEl.className = 'form-control';
     linkEl.className = 'form-control';
-
-    const line = new Link(linkName, linkTag, link, location);
+    const id=0;
+    const line = new Link(id, linkName, linkTag, link, location);
     linkList.add(line);
-
 
     nameEl.value = '';
     tagEl.value = '';
@@ -55,7 +52,7 @@ const findFormEl = document.querySelector('#find-form'); // форма поис�
 const errorBox = document.querySelector('#error-box'); // див для ошибок
 
 findFormEl.addEventListener('submit', (evt) =>{
-    evt.preventDefault();               // отмена перезагрузки страницы
+    evt.preventDefault();                                       // отмена перезагрузки страницы
 });
 
 findFormEl.addEventListener('input', (evt) => {
@@ -158,16 +155,13 @@ function rebuildTree(container, list) {
                     rebuildTree(container, list);
                     editFormEl.appendChild(editSaveButtonEl);
                 });
-
                 liEl.appendChild(editFormEl);
-
             });
 
 
             const checkboxEl = liEl.querySelector('#i-checkbox');
             checkboxEl.addEventListener('change', (evt) => {
                 linkList.changeLocation(item);
-                console.log(item);
                 rebuildTree(container, list);
                 rebuildReadTree(readLinksListEl, linkList);
             });

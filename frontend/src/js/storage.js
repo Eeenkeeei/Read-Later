@@ -1,3 +1,6 @@
+import {Http} from "./http.js";
+const http = new Http('http://localhost:7777/items');
+
 export class LinksLocalStorage {
     constructor() {
         const items = this.items = JSON.parse(localStorage.getItem('links'));
@@ -18,6 +21,7 @@ export class LinksLocalStorage {
         }
         item.tag = tags;
         this.save();
+
     }
 
 
@@ -44,9 +48,9 @@ export class LinksLocalStorage {
 
     save() {
         localStorage.setItem('links', JSON.stringify(this.items)) // stringify - преобразование объекта в строку
+
     }
 
-    // todo: переделать чтобы искать точные совпадения
     finder(findName) {
         this.resultObjects = [];
         if (findName.charAt(0) !== '#') {
@@ -124,5 +128,6 @@ export class LinksLocalStorage {
         item.link = editLink;
         this.save();
     }
-}
 
+
+}
