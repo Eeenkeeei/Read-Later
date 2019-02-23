@@ -41,7 +41,4 @@ export class LinkList {
         this.storage.editElement (item, editLinkName, editLinkTag, editLink);
     }
 
-    sync (){
-        this.storage.sync();
-    }
 }

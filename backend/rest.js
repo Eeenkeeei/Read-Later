@@ -53,6 +53,12 @@ server.post('/items', (req, res, next) => {
 
     res.send();
     next();
+    console.log('PUSH', items)
+});
+
+server.del ('/items', (req, res, next) => {
+    items.splice(0, items.length);
+    console.log('DELETE STARTED')
 });
 
 server.del('/items/:id', (req, res, next) => {

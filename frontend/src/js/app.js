@@ -1,5 +1,6 @@
 import {LinkList, Link} from './lib.js';
 import {LinksLocalStorage} from "./storage.js";
+import {Sync} from "./sync.js";
 
 const nameEl = document.querySelector('#link-name'); // Поле ввода названия
 const tagEl = document.querySelector('#link-tag'); // Поле ввода тегов
@@ -11,6 +12,11 @@ const findNameEl = document.querySelector('#find-name'); // поле ввода 
 const editFormEl = document.createElement('div');
 const linkList = new LinkList(new LinksLocalStorage());
 rebuildTree(listEl, linkList);
+
+const syncTest = new Sync();
+syncTest.clearStorage();
+syncTest.pushStorage();
+
 
 const addButtonEl = document.querySelector('#add-item'); // кнопка добавления
 
@@ -36,7 +42,7 @@ formEl.addEventListener('submit', (evt) => {
     nameEl.className = 'form-control';
     tagEl.className = 'form-control';
     linkEl.className = 'form-control';
-    const id=0;
+    const id = 0;
     const line = new Link(id, linkName, linkTag, link, location);
     linkList.add(line);
 
@@ -51,7 +57,7 @@ formEl.addEventListener('submit', (evt) => {
 const findFormEl = document.querySelector('#find-form'); // форма поиска
 const errorBox = document.querySelector('#error-box'); // див для ошибок
 
-findFormEl.addEventListener('submit', (evt) =>{
+findFormEl.addEventListener('submit', (evt) => {
     evt.preventDefault();                                       // отмена перезагрузки страницы
 });
 

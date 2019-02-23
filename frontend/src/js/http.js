@@ -33,5 +33,10 @@ export class Http {
         });
     }
 
+    deleteAll(){
+        return fetch(`${this.url}`, {
+            method: 'DELETE'
+        });
+    }
 
 }
