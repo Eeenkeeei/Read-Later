@@ -6,7 +6,7 @@
   "scripts": {
     "frontend": "live-server ./frontend/src",
     "backend": "nodemon ./backend/rest.js",
-    "test": "return 0"
+    "test": "exit 0"
   },
   "babel": {
     "presets": [
