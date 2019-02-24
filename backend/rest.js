@@ -17,10 +17,11 @@ server.pre((req, res, next) => {
     next();
 });
 
-let nextId = 1;
-const items = [
 
-];
+let nextId = 1;
+let items = [];
+
+
 
 server.get('/items', (req, res, next) => {
     res.send(items);
@@ -33,10 +34,11 @@ server.post('/items', (req, res, next) => {
         next(new BadRequestError('Invalid JSON, must contain id'));
         return;
     }
-
+    if (items.length === 0) nextId = 1;
     if (id === 0) {
         req.body.id = nextId++;
         items.push(req.body);
+
     } else {
         const index = items.findIndex((value) => {
             return value.id === id;
@@ -49,16 +51,34 @@ server.post('/items', (req, res, next) => {
 
         items[index] = req.body;
     }
-
-
     res.send();
     next();
-    console.log('PUSH', items)
+    console.log('PUSH');
+    console.log(items);
+});
+
+server.post('/items/:item', (req, res, next) => {
+    const newLink = {
+        name: req.body.name,
+        tag: req.body.tag,
+        link: req.body.link,
+        location: req.body.location,
+        id: req.body.id
+    };
+    console.log ('EARLY OBJECT', items[req.body.id-1]);
+    console.log ('NEW OBJECT', newLink);
+    items[req.body.id-1] = newLink;
+    console.log('NEW MASSIVE');
+    console.log(items);
+    res.send();
+    next();
 });
 
 server.del ('/items', (req, res, next) => {
-    items.splice(0, items.length);
-    console.log('DELETE STARTED')
+    items = [];
+    console.log('DELETE STARTED');
+    res.send();
+    next();
 });
 
 server.del('/items/:id', (req, res, next) => {
@@ -77,6 +97,8 @@ server.del('/items/:id', (req, res, next) => {
     }
 
     items.splice(index, 1);
+    console.log('NEW MASSIVE');
+    console.log(items);
     res.send();
     next();
 });

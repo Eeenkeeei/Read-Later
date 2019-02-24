@@ -1,4 +1,5 @@
 import {Http} from "./http.js";
+
 const http = new Http('http://localhost:7777/items');
 
 export class LinksLocalStorage {
@@ -21,17 +22,20 @@ export class LinksLocalStorage {
         }
         item.tag = tags;
         this.save();
-
+        http.add(item);
     }
 
 
     remove(item) {
         const index = this.items.indexOf(item);
         if (index !== -1) {
+            http.removeById(this.items.indexOf(item)+1);
             this.items.splice(index, 1);
             this.save();
         }
     }
+
+    // todo: добавить кнопку удаления всего
 
     removeAll() {
         this.items = [];
@@ -44,11 +48,18 @@ export class LinksLocalStorage {
         } else
             item.location = true;
         this.save();
+        const pushItem = {
+            id: this.items.indexOf(item)+1,
+            name: item.name,
+            tag: item.tag,
+            link: item.link,
+            location: item.location
+        };
+        http.changeLink(pushItem)
     }
 
     save() {
-        localStorage.setItem('links', JSON.stringify(this.items)) // stringify - преобразование объекта в строку
-
+        localStorage.setItem('links', JSON.stringify(this.items)); // stringify - преобразование объекта в строку
     }
 
     finder(findName) {
@@ -114,7 +125,6 @@ export class LinksLocalStorage {
             }
         }
     }
-
     editElement (item, editLinkName, editLinkTag, editLink) {
         item.name = editLinkName;
         editLinkTag = editLinkTag.split("#");
@@ -127,7 +137,38 @@ export class LinksLocalStorage {
         item.tag = tags;
         item.link = editLink;
         this.save();
+        const pushItem = {
+            id: this.items.indexOf(item)+1,
+            name: item.name,
+            tag: item.tag,
+            link: item.link,
+            location: item.location
+        };
+        http.changeLink(pushItem)
     }
 
+    async pushStorage() {
+        try {
+            const items = this.items;
+            await http.getAll();
+            for (const item of items) {
+                await http.add(item);
+            }
+
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+
+    async clearStorage() {
+        try {
+            await http.deleteAll()
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
 
 }
+

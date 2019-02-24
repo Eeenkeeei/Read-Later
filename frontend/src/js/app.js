@@ -13,12 +13,9 @@ const editFormEl = document.createElement('div');
 const linkList = new LinkList(new LinksLocalStorage());
 rebuildTree(listEl, linkList);
 
-const syncTest = new Sync();
-syncTest.clearStorage();
-syncTest.pushStorage();
-
-
-const addButtonEl = document.querySelector('#add-item'); // кнопка добавления
+const sync = new Sync();
+sync.clearStorage();
+sync.pushStorage(); // синхронизация имеющихся данных с сервером при первой загрузке
 
 nameEl.className = 'form-control';
 
