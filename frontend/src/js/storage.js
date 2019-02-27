@@ -1,6 +1,6 @@
 import {Http} from "./http.js";
 
-const http = new Http('https://readlater-eeenkeeei.herokuapp.com/items');
+const http = new Http('https://readlater-server.herokuapp.com/items');
 
 export class LinksLocalStorage {
     constructor() {

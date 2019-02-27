@@ -1,7 +1,7 @@
 import {Http} from "./http.js";
 import {LinksLocalStorage} from "./storage.js";
 
-const http = new Http('https://readlater-eeenkeeei.herokuapp.com/items');
+const http = new Http('https://readlater-server.herokuapp.com/items');
 
 const linksListStorage = new LinksLocalStorage();
 
