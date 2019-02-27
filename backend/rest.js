@@ -96,6 +96,8 @@ server.del('/items/:id', (req, res, next) => {
     next();
 });
 
-server.listen(7777, () => {
+const port = process.env.PORT || 7777;
+
+server.listen(port, () => {
     console.log('server started');
 });

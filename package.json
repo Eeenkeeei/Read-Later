@@ -6,7 +6,11 @@
   "scripts": {
     "frontend": "live-server ./frontend/src",
     "backend": "nodemon ./backend/rest.js",
+    "start": "node backend/rest.js",
     "test": "exit 0"
+  },
+  "engines": {
+    "node": "10.x"
   },
   "babel": {
     "presets": [
