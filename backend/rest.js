@@ -21,8 +21,6 @@ server.pre((req, res, next) => {
 let nextId = 1;
 let items = [];
 
-
-
 server.get('/items', (req, res, next) => {
     res.send(items);
     next();
@@ -58,16 +56,12 @@ server.post('/items', (req, res, next) => {
 });
 
 server.post('/items/:item', (req, res, next) => {
-    const newLink = {
-        name: req.body.name,
-        tag: req.body.tag,
-        link: req.body.link,
-        location: req.body.location,
-        id: req.body.id
-    };
     console.log ('EARLY OBJECT', items[req.body.id-1]);
-    console.log ('NEW OBJECT', newLink);
-    items[req.body.id-1] = newLink;
+    items[req.body.id-1].name = req.body.name;
+    items[req.body.id-1].tag = req.body.tag;
+    items[req.body.id-1].link = req.body.link;
+    items[req.body.id-1].location = req.body.location;
+    console.log ('NEW OBJECT', items[req.body.id-1]);
     console.log('NEW MASSIVE');
     console.log(items);
     res.send();
@@ -95,7 +89,6 @@ server.del('/items/:id', (req, res, next) => {
         next(new NotFoundError('Item not found'));
         return;
     }
-
     items.splice(index, 1);
     console.log('NEW MASSIVE');
     console.log(items);

@@ -11,6 +11,7 @@ export class LinksLocalStorage {
             this.items = [];
         }
         this.resultObjects = [];
+        this.itemsCopy = [];
     }
 
     add(item) {
@@ -23,13 +24,14 @@ export class LinksLocalStorage {
         item.tag = tags;
         this.save();
         http.add(item);
+        this.itemsCopy.push(item);
     }
 
 
     remove(item) {
         const index = this.items.indexOf(item);
         if (index !== -1) {
-            http.removeById(this.items.indexOf(item)+1);
+            http.removeById(this.itemsCopy.indexOf(item)+1);
             this.items.splice(index, 1);
             this.save();
         }
@@ -125,6 +127,7 @@ export class LinksLocalStorage {
             }
         }
     }
+
     editElement (item, editLinkName, editLinkTag, editLink) {
         item.name = editLinkName;
         editLinkTag = editLinkTag.split("#");
@@ -146,29 +149,5 @@ export class LinksLocalStorage {
         };
         http.changeLink(pushItem)
     }
-
-    async pushStorage() {
-        try {
-            const items = this.items;
-            await http.getAll();
-            for (const item of items) {
-                await http.add(item);
-            }
-
-        }
-        catch (e) {
-            console.log(e);
-        }
-    }
-
-    async clearStorage() {
-        try {
-            await http.deleteAll()
-        }
-        catch (e) {
-            console.log(e)
-        }
-    }
-
 }
 
